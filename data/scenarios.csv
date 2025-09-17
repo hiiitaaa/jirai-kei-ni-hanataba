@@ -1,0 +1,8 @@
+id,scene_name,background,bgm,next_scene,condition
+1,meeting,street_evening.png,bgm_date.mp3,easy_game,none
+2,easy_clear,restaurant.png,bgm_restaurant.mp3,dinner_scene,clear_easy
+3,dinner_scene,restaurant_table.png,bgm_dinner.mp3,normal_game,none
+4,normal_clear,street_night.png,bgm_night.mp3,home_scene,clear_normal
+5,home_scene,ami_room.png,bgm_room.mp3,hard_game,none
+6,hard_clear,ami_bedroom.png,bgm_morning.mp3,true_end,clear_hard
+7,bad_end,dark_room.png,bgm_horror.mp3,game_over,fail_game

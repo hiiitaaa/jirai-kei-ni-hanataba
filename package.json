@@ -1,0 +1,52 @@
+{
+  "name": "jirai-kei-ni-hanataba",
+  "version": "1.0.0",
+  "description": "地雷系に花束を - マインスイーパー×ビジュアルノベル",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "dist": "electron-builder --win",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["game", "minesweeper", "visual-novel"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.2"
+  },
+  "build": {
+    "appId": "com.game.jiraikei",
+    "productName": "地雷系に花束を",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*",
+      "node_modules/csv-parse/**/*"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "assets/**/*",
+      "data/**/*"
+    ]
+  }
+}

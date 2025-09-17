@@ -1,0 +1,4 @@
+difficulty,grid_size,mine_count,time_limit,description,clear_requirement
+easy,9x9,8,180,待ち合わせ編：不機嫌なアミの地雷を避けろ,全マス-地雷マス開放
+normal,12x12,18,240,食事編：急変するアミの感情に対処せよ,全マス-地雷マス開放
+hard,16x16,35,300,自宅編：ヤンデレ化したアミから生き延びろ,全マス-地雷マス開放

@@ -1,0 +1,12 @@
+id,character,scene,emotion,text,voice_file,trigger
+1,ami,meeting,smile,遅い！もう、待ちくたびれちゃった♪,ami_meeting_01.mp3,start
+2,ami,meeting,angry,...なんで5分も遅れるの？私のこと、どうでもいいの？,ami_angry_01.mp3,late
+3,ami,easy_game,irritated,ねえ、私の話ちゃんと聞いてる？,ami_irritated_01.mp3,game_start
+4,ami,easy_clear,happy,よかった♪ちゃんと私のこと見てくれてるんだね！,ami_happy_01.mp3,clear
+5,ami,dinner_scene,smile,このお店、前から来たかったの！,ami_dinner_01.mp3,start
+6,ami,normal_game,dark,...さっきから他の女の子ばっかり見てない？,ami_dark_01.mp3,game_start
+7,ami,normal_clear,relief,ごめんね、私の勘違いだった...,ami_relief_01.mp3,clear
+8,ami,home_scene,sweet,私の部屋、初めてでしょ？緊張する？,ami_home_01.mp3,start
+9,ami,hard_game,yandere,ねえ...私だけを見てよ。他の誰も見ないで。,ami_yandere_01.mp3,game_start
+10,ami,hard_clear,love,大好き...ずっと一緒にいようね♪,ami_love_01.mp3,clear
+11,ami,bad_end,crazy,もう逃がさない。ずっとここにいて。私だけのものになって。,ami_crazy_01.mp3,bad_end

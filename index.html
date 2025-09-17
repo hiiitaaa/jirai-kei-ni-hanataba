@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地雷系に花束を</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- タイトル画面 -->
+    <div id="titleScene" class="scene active">
+        <div class="title-container">
+            <h1 class="game-title">地雷系に花束を</h1>
+            <div class="menu-buttons">
+                <button id="startBtn" class="menu-btn">はじめから</button>
+                <button id="continueBtn" class="menu-btn">つづきから</button>
+                <button id="galleryBtn" class="menu-btn">ギャラリー</button>
+                <button id="settingsBtn" class="menu-btn">設定</button>
+            </div>
+            <div class="version">v1.0.0</div>
+        </div>
+    </div>
+
+    <!-- 会話シーン -->
+    <div id="novelScene" class="scene">
+        <div class="novel-background" id="novelBackground"></div>
+        <div class="character-layer">
+            <div class="character-sprite" id="amiSprite">
+                <div class="character-placeholder">アミ</div>
+            </div>
+        </div>
+        <div class="dialogue-box">
+            <div class="character-name" id="characterName">アミ</div>
+            <div class="dialogue-text" id="dialogueText"></div>
+            <div class="continue-indicator" id="continueIndicator">▼</div>
+        </div>
+        <div class="novel-controls">
+            <button class="control-btn" id="skipBtn">SKIP</button>
+            <button class="control-btn" id="autoBtn">AUTO</button>
+            <button class="control-btn" id="logBtn">LOG</button>
+            <button class="control-btn" id="menuBtn">MENU</button>
+        </div>
+    </div>
+
+    <!-- マインスイーパーシーン -->
+    <div id="gameScene" class="scene">
+        <div class="game-header">
+            <div class="stage-title" id="stageTitle">待ち合わせ編</div>
+            <div class="game-info">
+                <div class="info-item">
+                    <span class="info-label">TIME:</span>
+                    <span id="timer">00:00</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">地雷:</span>
+                    <span id="mineCount">8</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-main">
+            <div id="gameBoard" class="game-board"></div>
+
+            <div class="ami-status">
+                <div class="ami-portrait">
+                    <div class="ami-face" id="amiFace">
+                        <div class="face-placeholder">😊</div>
+                    </div>
+                    <div class="emotion-indicator" id="emotionIndicator"></div>
+                </div>
+
+                <div class="affection-container">
+                    <div class="affection-label">好感度</div>
+                    <div class="affection-bar">
+                        <div class="affection-fill" id="affectionBar"></div>
+                    </div>
+                </div>
+
+                <div class="ami-thought" id="amiThought">
+                    私の地雷、踏まないでね...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- エンディング画面 -->
+    <div id="endingScene" class="scene">
+        <div class="ending-container">
+            <h2 class="ending-title" id="endingTitle">TRUE END</h2>
+            <div class="ending-text" id="endingText"></div>
+            <div class="ending-cg" id="endingCG"></div>
+            <button class="ending-btn" id="returnTitleBtn">タイトルへ</button>
+        </div>
+    </div>
+
+    <!-- ギャラリー画面 -->
+    <div id="galleryScene" class="scene">
+        <div class="gallery-container">
+            <h2 class="gallery-title">ギャラリー</h2>
+            <div class="gallery-tabs">
+                <button class="tab-btn active" data-tab="videos">動画</button>
+                <button class="tab-btn" data-tab="cg">CG</button>
+                <button class="tab-btn" data-tab="music">音楽</button>
+            </div>
+            <div class="gallery-content" id="galleryContent">
+                <div class="gallery-grid" id="videoGallery"></div>
+            </div>
+            <button class="back-btn" id="galleryBackBtn">戻る</button>
+        </div>
+    </div>
+
+    <!-- ローディング画面 -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">読み込み中...</div>
+    </div>
+
+    <!-- スクリプト読み込み -->
+    <script src="js/main.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/novel.js"></script>
+    <script src="js/animation.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/renderer.js"></script>
+</body>
+</html>
