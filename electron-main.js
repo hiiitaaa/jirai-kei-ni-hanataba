@@ -11,19 +11,21 @@ let mainWindow;
 // ウィンドウ作成
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 1280,
-        height: 800,
-        minWidth: 1024,
-        minHeight: 600,
+        width: 1920,
+        height: 1080,
+        minWidth: 1280,
+        minHeight: 720,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             webSecurity: false // ローカルファイルアクセス許可
         },
         icon: path.join(__dirname, 'assets/icon.ico'),
-        title: '地雷系に花束を',
+        title: '地雷娘に花束を',
         backgroundColor: '#000000',
-        show: false
+        show: false,
+        // FullHD画面の中央に表示
+        center: true
     });
 
     // index.htmlを読み込み
@@ -87,6 +89,21 @@ function createWindow() {
             label: '表示',
             submenu: [
                 {
+                    label: '再読み込み',
+                    accelerator: 'Ctrl+R',
+                    click: () => {
+                        mainWindow.webContents.reload();
+                    }
+                },
+                {
+                    label: '強制再読み込み',
+                    accelerator: 'Ctrl+Shift+R',
+                    click: () => {
+                        mainWindow.webContents.reloadIgnoringCache();
+                    }
+                },
+                { type: 'separator' },
+                {
                     label: 'フルスクリーン',
                     accelerator: 'F11',
                     click: () => {
@@ -112,7 +129,7 @@ function createWindow() {
                         dialog.showMessageBox(mainWindow, {
                             type: 'info',
                             title: '操作方法',
-                            message: '地雷系に花束を - 操作方法',
+                            message: '地雷娘に花束を - 操作方法',
                             detail: '左クリック: マスを開く\n右クリック: フラッグを立てる\nスペース/クリック: 会話を進める\n\n彼女の地雷を踏まないように気をつけて！',
                             buttons: ['OK']
                         });
@@ -124,7 +141,7 @@ function createWindow() {
                         dialog.showMessageBox(mainWindow, {
                             type: 'info',
                             title: 'バージョン情報',
-                            message: '地雷系に花束を',
+                            message: '地雷娘に花束を',
                             detail: 'Version 1.0.0\n\nマインスイーパー×ビジュアルノベル\n可愛い地雷系彼女とのデートゲーム',
                             buttons: ['OK']
                         });
@@ -141,6 +158,11 @@ function createWindow() {
         mainWindow = null;
     });
 }
+
+// GPUエラー回避設定
+app.commandLine.appendSwitch('disable-gpu');
+app.commandLine.appendSwitch('disable-software-rasterizer');
+app.commandLine.appendSwitch('disable-gpu-sandbox');
 
 // Electronの準備完了
 app.whenReady().then(() => {

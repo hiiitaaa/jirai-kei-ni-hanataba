@@ -1,7 +1,7 @@
 {
   "name": "jirai-kei-ni-hanataba",
   "version": "1.0.0",
-  "description": "地雷系に花束を - マインスイーパー×ビジュアルノベル",
+  "description": "地雷娘に花束を - マインスイーパー×ビジュアルノベル",
   "main": "electron-main.js",
   "scripts": {
     "start": "electron .",
@@ -21,7 +21,7 @@
   },
   "build": {
     "appId": "com.game.jiraikei",
-    "productName": "地雷系に花束を",
+    "productName": "地雷娘に花束を",
     "directories": {
       "output": "dist"
     },

@@ -1,0 +1,17 @@
+trigger_id,scene_id,dialogue_index,trigger_type,condition,next_action,action_params,transition
+trg_prologue_end,prologue,9,dialogue_end,,change_scene,meeting,fade
+trg_meeting_game,meeting,14,dialogue_end,,start_game,easy,glitch
+trg_easy_clear,meeting_game,,game_clear,easy,play_video,easy_reward_intro,white_flash
+trg_easy_fail,meeting_game,,game_fail,easy,change_scene,bad_end_1,fade
+trg_easy_reward,easy_clear,4,dialogue_end,,play_video,easy_reward_intro,fade
+trg_restaurant,easy_reward,6,dialogue_end,,change_scene,dinner_scene,fade
+trg_normal_game,dinner_scene,15,dialogue_end,,start_game,normal,shake
+trg_normal_clear,dinner_game,,game_clear,normal,play_video,normal_reward_intro,pink_flash
+trg_normal_fail,dinner_game,,game_fail,normal,change_scene,bad_end_1,fade
+trg_home_scene,normal_clear,7,dialogue_end,,change_scene,home_scene,fade
+trg_hard_game,home_scene,18,dialogue_end,,start_game,hard,glitch
+trg_hard_clear,home_game,,game_clear,hard,play_video,hard_reward_intro,white_flash
+trg_hard_fail,home_game,,game_fail,hard,change_scene,bad_end_1,fade
+trg_true_end,hard_clear,7,dialogue_end,,change_scene,true_end,fade
+trg_ending,true_end,9,dialogue_end,,show_ending,true_end,fade
+trg_bad_end,bad_end_1,5,dialogue_end,,show_ending,bad_end,fade

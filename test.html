@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地雷娘に花束を - 統合テスト</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,105,180,0.2);
+            border-radius: 10px;
+        }
+
+        .test-section {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #ff69b4;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-title {
+            color: #ff69b4;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .test-button {
+            background: #ff69b4;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .test-button:hover {
+            background: #ff1493;
+        }
+
+        .console-output {
+            background: #000;
+            border: 1px solid #444;
+            padding: 10px;
+            margin-top: 10px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .console-line {
+            margin: 2px 0;
+        }
+
+        .console-error {
+            color: #ff4444;
+        }
+
+        .console-success {
+            color: #44ff44;
+        }
+
+        .console-info {
+            color: #4444ff;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-ok {
+            background: #0f0;
+        }
+
+        .status-error {
+            background: #f00;
+        }
+
+        .status-loading {
+            background: #ff0;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+
+        .system-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            background: rgba(50,50,50,0.5);
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🎮 地雷娘に花束を - システム統合テスト</h1>
+            <p>全システムの動作確認とデバッグツール</p>
+        </div>
+
+        <!-- システムステータス -->
+        <div class="test-section">
+            <h2 class="test-title">📊 システムステータス</h2>
+            <div class="system-status" id="systemStatus">
+                <div class="status-item">
+                    <span class="status-indicator status-loading" id="csvStatus"></span>
+                    <span>CSV Loader</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-indicator status-loading" id="triggerStatus"></span>
+                    <span>Trigger System</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-indicator status-loading" id="novelStatus"></span>
+                    <span>Novel System</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-indicator status-loading" id="videoStatus"></span>
+                    <span>Video Manager</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-indicator status-loading" id="mainStatus"></span>
+                    <span>Main System</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSV読み込みテスト -->
+        <div class="test-section">
+            <h2 class="test-title">📁 CSVデータテスト</h2>
+            <button class="test-button" onclick="testCSVLoader()">CSVローダーテスト</button>
+            <button class="test-button" onclick="loadStoryData()">ストーリーデータ読み込み</button>
+            <button class="test-button" onclick="loadTriggerData()">トリガーデータ読み込み</button>
+            <button class="test-button" onclick="clearCSVCache()">キャッシュクリア</button>
+        </div>
+
+        <!-- トリガーシステムテスト -->
+        <div class="test-section">
+            <h2 class="test-title">⚡ トリガーシステムテスト</h2>
+            <button class="test-button" onclick="initTriggerSystem()">トリガー初期化</button>
+            <button class="test-button" onclick="testTriggerCheck()">トリガーチェック</button>
+            <button class="test-button" onclick="debugTriggers()">トリガー一覧</button>
+        </div>
+
+        <!-- ノベルシステムテスト -->
+        <div class="test-section">
+            <h2 class="test-title">📖 ノベルシステムテスト</h2>
+            <button class="test-button" onclick="testNovelSystem('prologue')">プロローグ開始</button>
+            <button class="test-button" onclick="testNovelSystem('meeting')">待ち合わせシーン</button>
+            <button class="test-button" onclick="testNovelSystem('dinner_scene')">食事シーン</button>
+            <button class="test-button" onclick="testNovelSystem('home_scene')">自宅シーン</button>
+            <button class="test-button" onclick="debugNovelStatus()">システム状態</button>
+        </div>
+
+        <!-- ビデオマネージャーテスト -->
+        <div class="test-section">
+            <h2 class="test-title">🎬 ビデオマネージャーテスト</h2>
+            <button class="test-button" onclick="testVideo('easy_reward_intro')">EASY動画テスト</button>
+            <button class="test-button" onclick="testVideo('normal_reward_intro')">NORMAL動画テスト</button>
+            <button class="test-button" onclick="testVideo('hard_reward_intro')">HARD動画テスト</button>
+            <button class="test-button" onclick="debugVideoStatus()">動画システム状態</button>
+        </div>
+
+        <!-- メインシステムテスト -->
+        <div class="test-section">
+            <h2 class="test-title">🎮 メインゲームテスト</h2>
+            <button class="test-button" onclick="testMainSystem()">メインシステム状態</button>
+            <button class="test-button" onclick="testStartGame()">新規ゲーム開始</button>
+            <button class="test-button" onclick="testSaveLoad()">セーブ/ロード</button>
+            <button class="test-button" onclick="resetGame()">ゲームリセット</button>
+        </div>
+
+        <!-- コンソール出力 -->
+        <div class="test-section">
+            <h2 class="test-title">📝 コンソール出力</h2>
+            <button class="test-button" onclick="clearConsole()">クリア</button>
+            <div class="console-output" id="consoleOutput"></div>
+        </div>
+    </div>
+
+    <!-- スクリプト読み込み（本番と同じ順序） -->
+    <script src="js/csv_loader.js"></script>
+    <script src="js/trigger_system.js"></script>
+    <script src="js/novel.js"></script>
+    <script src="js/video_manager.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/animation.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // デバッグモード有効化
+        window.DEBUG_MODE = true;
+
+        // コンソール出力をキャプチャ
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        const consoleOutput = document.getElementById('consoleOutput');
+
+        function addConsoleMessage(message, type = 'info') {
+            const line = document.createElement('div');
+            line.className = `console-line console-${type}`;
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addConsoleMessage(args.join(' '), 'info');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addConsoleMessage(args.join(' '), 'error');
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addConsoleMessage(args.join(' '), 'warning');
+        };
+
+        // システム初期化チェック
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                checkSystemStatus();
+            }, 1000);
+        });
+
+        // システムステータスチェック
+        function checkSystemStatus() {
+            updateStatus('csvStatus', !!window.csvLoader);
+            updateStatus('triggerStatus', !!window.triggerSystem);
+            updateStatus('novelStatus', !!window.novelSystem);
+            updateStatus('videoStatus', !!window.videoManager);
+            updateStatus('mainStatus', !!window.gameMain);
+
+            if (window.csvLoader && window.triggerSystem && window.novelSystem) {
+                addConsoleMessage('✅ 全システム準備完了', 'success');
+            } else {
+                addConsoleMessage('⚠ 一部システムが未初期化', 'error');
+            }
+        }
+
+        function updateStatus(elementId, isOk) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.className = `status-indicator ${isOk ? 'status-ok' : 'status-error'}`;
+            }
+        }
+
+        // CSVローダーテスト
+        async function testCSVLoader() {
+            addConsoleMessage('CSVローダーテスト開始...', 'info');
+
+            if (!window.csvLoader) {
+                addConsoleMessage('CSVローダーが初期化されていません', 'error');
+                return;
+            }
+
+            try {
+                const files = ['story_full.csv', 'scene_triggers.csv'];
+                const results = await window.csvLoader.preloadAllData(files);
+
+                for (let file of files) {
+                    if (results[file]) {
+                        addConsoleMessage(`✅ ${file}: ${results[file].length}行読み込み`, 'success');
+                    } else {
+                        addConsoleMessage(`❌ ${file}: 読み込み失敗`, 'error');
+                    }
+                }
+            } catch (error) {
+                addConsoleMessage(`エラー: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadStoryData() {
+            if (!window.csvLoader) {
+                addConsoleMessage('CSVローダーが初期化されていません', 'error');
+                return;
+            }
+
+            try {
+                const data = await window.csvLoader.loadCSV('story_full.csv');
+                addConsoleMessage(`ストーリーデータ: ${data.length}行読み込み`, 'success');
+
+                // 最初の5行を表示
+                for (let i = 0; i < Math.min(5, data.length); i++) {
+                    addConsoleMessage(`  ${data[i].scene_id}: ${data[i].text}`, 'info');
+                }
+            } catch (error) {
+                addConsoleMessage(`エラー: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadTriggerData() {
+            if (!window.csvLoader) {
+                addConsoleMessage('CSVローダーが初期化されていません', 'error');
+                return;
+            }
+
+            try {
+                const data = await window.csvLoader.loadCSV('scene_triggers.csv');
+                addConsoleMessage(`トリガーデータ: ${data.length}行読み込み`, 'success');
+
+                data.forEach(trigger => {
+                    addConsoleMessage(`  ${trigger.trigger_id}: ${trigger.next_action}`, 'info');
+                });
+            } catch (error) {
+                addConsoleMessage(`エラー: ${error.message}`, 'error');
+            }
+        }
+
+        function clearCSVCache() {
+            if (window.csvLoader) {
+                window.csvLoader.clearCache();
+                addConsoleMessage('CSVキャッシュをクリアしました', 'success');
+            }
+        }
+
+        // トリガーシステムテスト
+        async function initTriggerSystem() {
+            if (!window.triggerSystem) {
+                addConsoleMessage('トリガーシステムが初期化されていません', 'error');
+                return;
+            }
+
+            try {
+                await window.triggerSystem.initialize();
+                addConsoleMessage('トリガーシステム初期化完了', 'success');
+            } catch (error) {
+                addConsoleMessage(`エラー: ${error.message}`, 'error');
+            }
+        }
+
+        function testTriggerCheck() {
+            if (!window.triggerSystem) {
+                addConsoleMessage('トリガーシステムが初期化されていません', 'error');
+                return;
+            }
+
+            const trigger = window.triggerSystem.checkTrigger('prologue', 9, '');
+            if (trigger) {
+                addConsoleMessage(`トリガー発見: ${trigger.trigger_id} -> ${trigger.next_action}`, 'success');
+            } else {
+                addConsoleMessage('該当するトリガーなし', 'info');
+            }
+        }
+
+        function debugTriggers() {
+            if (window.triggerSystem) {
+                window.triggerSystem.debugTriggers();
+            }
+        }
+
+        // ノベルシステムテスト
+        async function testNovelSystem(scene) {
+            if (!window.novelSystem) {
+                addConsoleMessage('ノベルシステムが初期化されていません', 'error');
+                return;
+            }
+
+            addConsoleMessage(`シーン「${scene}」を開始`, 'info');
+            await window.novelSystem.startScene(scene);
+        }
+
+        function debugNovelStatus() {
+            if (window.novelSystem) {
+                window.novelSystem.debugStatus();
+            }
+        }
+
+        // ビデオマネージャーテスト
+        function testVideo(videoId) {
+            if (!window.videoManager) {
+                addConsoleMessage('ビデオマネージャーが初期化されていません', 'error');
+                return;
+            }
+
+            addConsoleMessage(`動画「${videoId}」を再生テスト`, 'info');
+            window.videoManager.playVideo(videoId);
+        }
+
+        function debugVideoStatus() {
+            if (window.videoManager) {
+                window.videoManager.debugStatus();
+            }
+        }
+
+        // メインシステムテスト
+        function testMainSystem() {
+            if (window.debugMain) {
+                window.debugMain();
+            }
+        }
+
+        function testStartGame() {
+            if (window.gameMain) {
+                addConsoleMessage('新規ゲーム開始テスト', 'info');
+                // 実際のゲーム画面に遷移しないよう、状態確認のみ
+                addConsoleMessage(`現在のシーン: ${window.gameMain.GameState.currentScene}`, 'info');
+            }
+        }
+
+        function testSaveLoad() {
+            if (window.gameMain) {
+                window.gameMain.saveGame();
+                addConsoleMessage('ゲーム保存テスト完了', 'success');
+
+                window.gameMain.loadSaveData();
+                addConsoleMessage('セーブデータ読み込みテスト完了', 'success');
+            }
+        }
+
+        function resetGame() {
+            if (window.resetGame) {
+                window.resetGame();
+            }
+        }
+
+        function clearConsole() {
+            consoleOutput.innerHTML = '';
+            addConsoleMessage('コンソールクリア', 'info');
+        }
+    </script>
+</body>
+</html>

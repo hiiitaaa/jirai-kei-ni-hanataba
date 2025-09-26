@@ -54,6 +54,9 @@ class MinesweeperGame {
         boardEl.innerHTML = '';
         boardEl.className = `game-board ${this.difficulty}`;
 
+        // 動的にセルサイズを調整
+        this.adjustBoardSize();
+
         for (let i = 0; i < this.size * this.size; i++) {
             const cell = document.createElement('div');
             cell.className = 'cell';
@@ -67,6 +70,49 @@ class MinesweeperGame {
 
             boardEl.appendChild(cell);
         }
+    }
+
+    // ボードサイズを画面に合わせて調整
+    adjustBoardSize() {
+        // FullHD（1920×1080）に最適化
+        const maxBoardWidth = Math.min(window.innerWidth * 0.45, 800);  // 最大800px幅
+        const maxBoardHeight = Math.min(window.innerHeight * 0.7, 700); // 最大700px高さ
+
+        const sizes = {
+            easy: { count: 9, minCell: 35, maxCell: 50 },    // FullHDでより大きく
+            normal: { count: 12, minCell: 30, maxCell: 45 }, // 見やすいサイズ
+            hard: { count: 16, minCell: 25, maxCell: 40 }    // 画面に収まるサイズ
+        };
+
+        const config = sizes[this.difficulty];
+        const maxCellWidth = Math.floor(maxBoardWidth / config.count) - 2;  // gap分を引く
+        const maxCellHeight = Math.floor(maxBoardHeight / config.count) - 2;
+        const cellSize = Math.min(maxCellWidth, maxCellHeight, config.maxCell);
+        const finalSize = Math.max(cellSize, config.minCell);
+
+        // 動的スタイルを追加
+        const styleId = 'dynamic-board-styles';
+        let styleEl = document.getElementById(styleId);
+        if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = styleId;
+            document.head.appendChild(styleEl);
+        }
+
+        styleEl.textContent = `
+            .game-board.${this.difficulty} {
+                grid-template-columns: repeat(${config.count}, ${finalSize}px);
+                grid-template-rows: repeat(${config.count}, ${finalSize}px);
+            }
+
+            .game-board.${this.difficulty} .cell {
+                width: ${finalSize}px;
+                height: ${finalSize}px;
+                font-size: ${Math.max(11, finalSize * 0.45)}px;
+            }
+        `;
+
+        console.log(`[Game] ボードサイズ調整: ${this.difficulty} - セルサイズ: ${finalSize}px`);
     }
 
     // 地雷配置
@@ -247,6 +293,19 @@ class MinesweeperGame {
         window.gameMain?.onStageClear(this.difficulty);
 
         setTimeout(() => {
+            // トリガーシステムでクリアトリガーを確認（ご褒美動画再生）
+            if (window.triggerSystem) {
+                const clearTrigger = window.triggerSystem.checkGameClearTrigger(this.difficulty);
+                if (clearTrigger) {
+                    console.log('[Game] クリアトリガー発火:', clearTrigger.trigger_id);
+                    // 動画再生トリガーが発火
+                    window.triggerSystem.executeTrigger(clearTrigger);
+                    return;
+                }
+            }
+
+            // トリガーがない場合のフォールバック処理
+            console.log('[Game] クリアトリガーが見つからない、フォールバック処理');
             if (this.difficulty === 'hard') {
                 this.showTrueEnd();
             } else {
@@ -426,5 +485,8 @@ function startMinesweeper(difficulty) {
     window.minesweeperGame.init(difficulty);
 }
 
-// エクスポート
+// startMinesweeper関数もエクスポート
 window.startMinesweeper = startMinesweeper;
+
+// クラスのみエクスポート（インスタンス作成はmain.jsで行う）
+window.MinesweeperGame = MinesweeperGame;

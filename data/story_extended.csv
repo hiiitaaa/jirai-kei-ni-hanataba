@@ -1,0 +1,10 @@
+id,scene_id,sequence,speaker,text,emotion,voice_file,is_trigger,trigger_id,description_type
+1,meeting_psychological,1,inner_ami,（5分23秒...ちゃんと数えてた。だって、あなたを待つ時間は永遠に感じるから）,dark,,false,,psychological
+2,meeting_psychological,2,inner_hero,（数えてたって...そんなに俺のこと？いや、でもちょっと怖い気も...）,,,false,,psychological
+3,meeting_psychological,3,inner_ami,（この人は他の3人とは違う。絶対に逃がさない。私だけを見てくれる人）,yandere,,false,,psychological
+4,dinner_psychological,1,inner_ami,（あの女、さっきから彼に媚びた目で...許せない）,angry,,false,,psychological
+5,dinner_psychological,2,inner_hero,（アミの様子がおかしい...まさか嫉妬？）,,,false,,psychological
+6,dinner_psychological,3,inner_ami,（私以外を見たら、どうなるか分かってるよね？）,yandere,,false,,psychological
+7,home_psychological,1,inner_ami,（やっと二人きり。もう誰にも邪魔されない）,sweet,,false,,psychological
+8,home_psychological,2,inner_hero,（壁一面の写真...いつ撮られたんだ？）,,,false,,psychological
+9,home_psychological,3,inner_ami,（怖がってる？大丈夫、痛くはしないから。ただ、ずっと一緒にいてもらうだけ）,crazy,,false,,psychological

@@ -21,12 +21,11 @@ body {
     width: 100%;
     height: 100%;
     display: none;
-    opacity: 0;
     transition: opacity 0.5s ease;
 }
 
 .scene.active {
-    display: block;
+    display: block !important;
     opacity: 1;
 }
 
@@ -43,8 +42,8 @@ body {
 }
 
 .game-title {
-    font-size: 4em;
-    margin-bottom: 50px;
+    font-size: 5em; /* FullHDに合わせて大きく */
+    margin-bottom: 60px;
     background: linear-gradient(45deg, #ff69b4, #ff1493);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -64,9 +63,9 @@ body {
 }
 
 .menu-btn {
-    width: 250px;
-    padding: 15px 30px;
-    font-size: 1.2em;
+    width: 320px;         /* FullHD用に幅を拡大 */
+    padding: 20px 40px;   /* パディングも大きく */
+    font-size: 1.5em;     /* フォントサイズ拡大 */
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid #ff69b4;
     color: #fff;
@@ -260,15 +259,16 @@ body {
 }
 
 .cell {
+    /* サイズは動的に設定される */
     background: #444;
     border: 1px solid #666;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    font-size: 16px;
     font-weight: bold;
     transition: all 0.2s ease;
+    user-select: none;
 }
 
 .cell:hover:not(.revealed):not(.flagged) {
@@ -567,6 +567,124 @@ body {
 
 .back-btn:hover {
     background: #ff69b4;
+}
+
+/* ========== ログウィンドウ ========== */
+.dialogue-log-window {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    height: 70vh;
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #ff69b4;
+    border-radius: 10px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+}
+
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ff69b4;
+}
+
+.log-header h3 {
+    color: #ff69b4;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.log-close-btn {
+    background: transparent;
+    color: #ff69b4;
+    border: 1px solid #ff69b4;
+    border-radius: 5px;
+    padding: 5px 15px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.log-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.log-entry {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
+}
+
+.log-speaker {
+    color: #ff69b4;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.log-text {
+    color: #fff;
+    line-height: 1.6;
+}
+
+/* ========== メニューウィンドウ ========== */
+.game-menu-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+}
+
+.menu-overlay {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-content {
+    background: rgba(20, 20, 30, 0.95);
+    border: 2px solid #ff69b4;
+    border-radius: 10px;
+    padding: 40px;
+    min-width: 400px;
+}
+
+.menu-content h2 {
+    color: #ff69b4;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid #ff69b4;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.menu-item:hover {
+    background: #ff69b4;
+    transform: translateX(5px);
 }
 
 /* ========== ローディング画面 ========== */

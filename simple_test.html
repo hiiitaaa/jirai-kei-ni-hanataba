@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>地雷娘に花束を - シンプルテスト</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        .test-btn {
+            background: #ff69b4;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+        .scene-test {
+            display: none;
+            padding: 20px;
+            background: #222;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .scene-test.active {
+            display: block;
+            border: 2px solid #ff69b4;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 地雷娘に花束を - 起動テスト</h1>
+
+    <h2>1. 基本動作テスト</h2>
+    <button class="test-btn" onclick="testBasic()">基本テスト</button>
+    <button class="test-btn" onclick="testScenes()">シーン切り替えテスト</button>
+
+    <h2>2. タイトル画面シミュレーション</h2>
+    <div id="titleScene" class="scene-test">
+        <h2 style="color: #ff69b4;">地雷娘に花束を</h2>
+        <button class="test-btn" onclick="startGame()">はじめから</button>
+        <button class="test-btn">つづきから</button>
+        <button class="test-btn">ギャラリー</button>
+    </div>
+
+    <h2>3. ノベルシーンテスト</h2>
+    <div id="novelScene" class="scene-test">
+        <div style="background: rgba(255,105,180,0.2); padding: 10px; border-radius: 5px;">
+            <strong>アミ</strong>
+            <p id="dialogueText">遅い！もう、待ちくたびれちゃった♪</p>
+        </div>
+        <button class="test-btn" onclick="nextDialogue()">次へ</button>
+    </div>
+
+    <h2>4. 出力ログ</h2>
+    <div id="output"></div>
+
+    <script>
+        // ログ出力
+        function log(msg, type = 'info') {
+            const output = document.getElementById('output');
+            const time = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff4444' : type === 'success' ? '#44ff44' : '#fff';
+            output.innerHTML += `<div style="color: ${color}">[${time}] ${msg}</div>`;
+        }
+
+        // 基本テスト
+        function testBasic() {
+            log('基本テスト開始', 'info');
+
+            // DOM要素チェック
+            const title = document.getElementById('titleScene');
+            const novel = document.getElementById('novelScene');
+
+            if (title && novel) {
+                log('✓ DOM要素: OK', 'success');
+            } else {
+                log('✗ DOM要素: NG', 'error');
+            }
+
+            // JavaScript基本動作
+            try {
+                const testObj = { name: 'test', value: 123 };
+                log('✓ JavaScript: OK', 'success');
+            } catch (e) {
+                log('✗ JavaScript: ' + e.message, 'error');
+            }
+        }
+
+        // シーン切り替えテスト
+        function testScenes() {
+            log('シーン切り替えテスト', 'info');
+
+            // タイトル表示
+            showTestScene('titleScene');
+            log('タイトルシーン表示', 'success');
+
+            setTimeout(() => {
+                // ノベル表示
+                showTestScene('novelScene');
+                log('ノベルシーン表示', 'success');
+            }, 1000);
+
+            setTimeout(() => {
+                // タイトルに戻る
+                showTestScene('titleScene');
+                log('タイトルに戻る', 'success');
+            }, 2000);
+        }
+
+        // シーン表示
+        function showTestScene(sceneId) {
+            const scenes = document.querySelectorAll('.scene-test');
+            scenes.forEach(s => s.classList.remove('active'));
+
+            const target = document.getElementById(sceneId);
+            if (target) {
+                target.classList.add('active');
+            }
+        }
+
+        // ゲーム開始シミュレーション
+        function startGame() {
+            log('ゲーム開始', 'info');
+            showTestScene('novelScene');
+
+            // セリフ配列
+            const dialogues = [
+                'アミ「遅い！もう、待ちくたびれちゃった♪」',
+                'アミ「...なんで5分も遅れるの？」',
+                'アミ「5分23秒、遅れた」',
+                'アミ「私のこと、どうでもいいの？」'
+            ];
+
+            let index = 0;
+
+            window.currentDialogueIndex = 0;
+            window.dialogues = dialogues;
+
+            document.getElementById('dialogueText').textContent = dialogues[0];
+            log('プロローグ開始', 'success');
+        }
+
+        // 次のダイアログ
+        function nextDialogue() {
+            if (!window.dialogues) {
+                log('ダイアログが初期化されていません', 'error');
+                return;
+            }
+
+            window.currentDialogueIndex++;
+
+            if (window.currentDialogueIndex < window.dialogues.length) {
+                document.getElementById('dialogueText').textContent =
+                    window.dialogues[window.currentDialogueIndex];
+                log(`ダイアログ ${window.currentDialogueIndex + 1}/${window.dialogues.length}`, 'info');
+            } else {
+                log('ダイアログ終了', 'success');
+                showTestScene('titleScene');
+            }
+        }
+
+        // 初期表示
+        window.onload = function() {
+            log('ページ読み込み完了', 'success');
+            showTestScene('titleScene');
+        };
+    </script>
+</body>
+</html>
